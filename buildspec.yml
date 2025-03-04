@@ -13,8 +13,6 @@ env:
 phases:
   pre_build:
     commands:
-      - echo "Checking IAM identity..."
-      - aws sts get-caller-identity
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 183295452329.dkr.ecr.ap-south-1.amazonaws.com
       - REPO_URI=183295452329.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME
     
@@ -25,7 +23,7 @@ phases:
   post_build:
     commands:
       - docker push $REPO_URI:$IMAGE_TAG
-      - printf '[{"name":"navidrome-container","imageUri":"%s"}]' $REPO_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"dashy-container","imageUri":"%s"}]' $REPO_URI:$IMAGE_TAG > imagedefinitions.json
       # - cat imagedefinitions.json || true
       # - ls -la
 
